@@ -8,4 +8,5 @@ setup(name='bhtsa',
       author_email='bh163@duke.edu',
       license='MIT',
       packages=['bhtsa'],
+      dependency_links=['https://github.com/nltk/nltk'],
       zip_safe=False)

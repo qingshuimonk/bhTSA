@@ -88,5 +88,8 @@ ENV/
 # Rope project settings
 .ropeproject
 
+# twitter credential file
+twitter-files/
+
 # temporory files
 *~
