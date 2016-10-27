@@ -9,4 +9,7 @@ setup(name='bhtsa',
       license='MIT',
       packages=['bhtsa'],
       dependency_links=['https://github.com/nltk/nltk'],
+      install_requires=[
+            'numpy'
+      ],
       zip_safe=False)

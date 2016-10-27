@@ -6,7 +6,7 @@ A Twitter Sentiment Analyzer
   * Refactoring the codes
   * Setup the repo
   * Need do something to handle 'rt', probably a new feature
-  * Implement baseline classifier
+  * Test baseline classifier
 
 
 # REFERENCE
