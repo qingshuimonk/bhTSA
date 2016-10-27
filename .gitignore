@@ -93,3 +93,6 @@ twitter-files/
 
 # temporory files
 *~
+
+# my file to test functions
+test.py
