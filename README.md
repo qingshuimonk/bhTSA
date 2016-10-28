@@ -7,6 +7,7 @@ A Twitter Sentiment Analyzer
   * Setup the repo
   * Need do something to handle 'rt', probably a new feature
   * Test baseline classifier
+  * Fix having extra lines in process twt
 
 
 # REFERENCE
