@@ -10,6 +10,7 @@ setup(name='bhtsa',
       packages=['bhtsa'],
       dependency_links=['https://github.com/nltk/nltk'],
       install_requires=[
-            'numpy'
+            'numpy',
+            'Twython'
       ],
       zip_safe=False)

@@ -96,3 +96,6 @@ twitter-files/
 
 # my file to test functions
 test.py
+
+# where I store my data
+model/

@@ -1,5 +1,6 @@
 import nltk
 import numpy as np
+import pickle
 from process_twt import *
 
 
@@ -14,11 +15,12 @@ class NBClassifier(object):
         NBClassifier: Classifier
     """
 
-    def __init__(self):
+    def __init__(self, name='NBClassifier'):
         self.feature_list = []
         self.stop_words = get_stopwords()
         self.is_trained = False
         self.NBClassifier = []
+        self.name = name
 
     def get_feature_vector(self, twt):
         feature_vector = []
@@ -79,3 +81,11 @@ class NBClassifier(object):
             return self.NBClassifier.show_most_informative_features(num)
         else:
             return ['Error: Classifier has not been trained']
+
+    def save(self):
+        path = os.path.join(os.path.dirname(__file__), os.pardir, 'data', 'model')
+        if not os.path.exists(path):
+            os.makedirs(path)
+        f = open(os.path.join(path, self.name+'.pickle'), 'wb')
+        pickle.dump(self, f)
+        f.close()
