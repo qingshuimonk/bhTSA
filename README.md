@@ -9,6 +9,8 @@ A Twitter Sentiment Analyzer
   * Test baseline classifier
   * Fix having extra lines in process twt
 
+# DEMO
+  * [Train Naive Bayes classifier](bhtsa/trainNBClassifier.ipynb)
 
 # REFERENCE
   * L. Luce. (2012, Janurary, 2). Twitter sentiment analysis using Python and NLTK [online]. Available: http://www.laurentluce.com/posts/twitter-sentiment-analysis-using-python-and-nltk/
