@@ -11,6 +11,8 @@ setup(name='bhtsa',
       dependency_links=['https://github.com/nltk/nltk'],
       install_requires=[
             'numpy',
-            'Twython'
+            'Twython',
+            'matplotlib',
+            'sklearn'
       ],
       zip_safe=False)
