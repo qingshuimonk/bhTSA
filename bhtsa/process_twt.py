@@ -37,7 +37,7 @@ def get_stopwords():
     return stopwords
 
 
-def get_slangdictionary():
+def get_slang_dict():
     fp = open(os.path.join(os.path.dirname(__file__), os.pardir, 'data', 'slangdict.txt'), 'r')
     line = fp.readline()
     slangdict = {}

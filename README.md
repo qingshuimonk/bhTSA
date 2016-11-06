@@ -3,10 +3,9 @@ A Twitter Sentiment Analyzer
 
 
 # TODO
-  * Refactoring the codes
-  * Setup the repo
   * Need do something to handle 'rt', probably a new feature
-  * Test baseline classifier
+  * Test senti-score classifier
+  * Test twitter_senti_analyzer
   * Fix having extra lines in process twt
 
 # DEMO
