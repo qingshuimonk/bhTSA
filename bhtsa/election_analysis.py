@@ -59,7 +59,7 @@ x = trump_score.reshape((-1, 1))
 plt.hist(x, 100, facecolor='blue', alpha=0.5, label='Donald Trump')
 plt.legend(loc='upper right')
 plt.xlabel('Sentiment Score')
-plt.ylabel('#Votes')
+plt.ylabel('#Tweets')
 plt.show()
 
 # plot score distribution

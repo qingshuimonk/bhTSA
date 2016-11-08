@@ -72,8 +72,8 @@ class NBClassifier(object):
             score = np.zeros((len(twt), 1))
             for cnt, row in enumerate(twt):
                 row = preprocess(row)
-                score[cnt] = (self.NBClassifier.prob_classify(self.extract_features(self.get_feature_vector(row)))).prob(
-                    'positive')
+                score[cnt] = (self.NBClassifier.prob_classify(self.extract_features(
+                    self.get_feature_vector(row)))).prob('positive')
             return score
 
     def informative_features(self, num=10):

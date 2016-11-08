@@ -30,14 +30,14 @@ def senti_score_daily(keyword, client, classifier, twt_num, start_time, days, ve
             tweets_gen = client.search_tweets(keywords=keyword, limit=twt_num, lang='en')
             tweets = []
             for t in tweets_gen:
-                tweets.append(t)
+                tweets.append(t['text'])
             f = open(os.path.join(path, filename), 'wb')
             pickle.dump(tweets, f)
             f.close()
 
         score = classifier.test(tweets)
 
-        score_all[:, i] = score[:, 0]
+        score_all[0:len(score[:, 0]), i] = score[:, 0]
         if verb == 1:
             print keyword+' : '+str(start_t)+' to '+str(end_t)+' score='+str(np.mean(score_all[:, i], axis=0))
 

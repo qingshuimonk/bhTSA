@@ -99,3 +99,6 @@ test.py
 
 # where I store my data
 model/
+tweets/
+result/
+.pickle
