@@ -3,9 +3,8 @@ A Twitter Sentiment Analyzer
 
 
 # TODO
+  * Topic modeling of tweets
   * Need do something to handle 'rt', probably a new feature
-  * Test senti-score classifier
-  * Test twitter_senti_analyzer
   * Fix having extra lines in process twt
 
 # DEMO
