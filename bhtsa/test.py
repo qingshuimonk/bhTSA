@@ -2,6 +2,7 @@ from nltk.twitter import Query, credsfromfile, TweetViewer
 import process_twt
 from NBClassifier import NBClassifier
 from SCClassifier import SCClassifier
+from BGClassifier import BGClassifier
 from nltk.corpus import twitter_samples, TwitterCorpusReader
 import os
 import pickle
@@ -44,13 +45,12 @@ pos_sample = 'Great! This classifier works!'
 
 # NBC.test([neg_sample])
 
-SCC = SCClassifier(nbc=NBC)
-print 'Training SCClassifier...'
-SCC.train(posTwt, negTwt)
+BGC = BGClassifier()
+print 'Training BGClassifier...'
+BGC.train(posTwt, negTwt)
 print 'Done!'
 
-print SCC.test([neg_sample])
-print SCC.test([pos_sample])
+print BGC.test([neg_sample])
+print BGC.test([pos_sample])
 
-SCC.save()
-# print NBC.informative_features()
+print BGC.informative_features()
