@@ -18,6 +18,7 @@ def preprocess(twt, tolower=True, slangdict={}):
     twt = re.sub('@[^\s]+', 'AT_USER', twt)
     twt = re.sub('[\s]+', ' ', twt)
     twt = re.sub(r'#([^\s]+)', r'\1', twt)
+    twt = re.sub('[\s]((not)|(no))', '-not', twt)
     twt = twt.strip('\'"')
     twt = twt.strip()
     twt = reduce_redundancy(twt)

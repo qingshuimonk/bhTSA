@@ -3,6 +3,7 @@ A Twitter Sentiment Analyzer
 
 
 # TODO
+  * Use salient to reduce feature list
   * Topic modeling of tweets
   * Need do something to handle 'rt', probably a new feature
   * Fix having extra lines in process twt

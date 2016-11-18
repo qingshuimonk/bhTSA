@@ -54,7 +54,7 @@ class NBClassifier(object):
             self.feature_list.extend(feature_vector)
             tweets.append((feature_vector, sentiment))
         for row in neg_twt:
-            sentiment = 'neg_twt'
+            sentiment = 'negative'
             processed_twt = preprocess(row)
             feature_vector = self.get_feature_vector(processed_twt)
             self.feature_list.extend(feature_vector)
