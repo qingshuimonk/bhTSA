@@ -1,7 +1,10 @@
+from __future__ import division
 import nltk
 from nltk.util import ngrams
+from nltk.stem.lancaster import LancasterStemmer
 import numpy as np
 import pickle
+from tqdm import tqdm
 from process_twt import *
 
 
@@ -13,18 +16,21 @@ class BGClassifier(object):
         feature_list: A list containing informative words
         stop_words: A list containing stop words
         is_trained: An indicator of whether classifier is trained
-        NBClassifier: Classifier
+        BGClassifier: Classifier
     """
 
-    def __init__(self, name='BGClassifier', n=2):
+    def __init__(self, name='BGClassifier', n=2, feature_th=0.8):
         self.feature_list = []
+        self.feature_salience = []
         self.stop_words = get_stopwords()
         self.is_trained = False
         self.BGClassifier = []
         self.ngram = n
+        self.feature_th = feature_th
         self.name = name
 
     def get_feature_vector(self, twt):
+        st = LancasterStemmer()
         feature_vector = []
         # split tweet into words
         words = twt.split()
@@ -37,7 +43,7 @@ class BGClassifier(object):
             if w in self.stop_words or val is None:
                 continue
             else:
-                feature_vector.append(w.lower())
+                feature_vector.append(st.stem(w.lower()))
         feature_vector = ngrams(feature_vector, self.ngram)
         return list(feature_vector)                 # feature_vector should be list instead of generator
 
@@ -50,21 +56,43 @@ class BGClassifier(object):
         return features
 
     def train(self, pos_twt, neg_twt):
+        self.feature_list = []
         tweets = []
+        pos_feature_set = []
+        neg_feature_set = []
+        gram_salience = {}
+        pbar = tqdm(total=len(pos_twt)+len(neg_twt), desc='Get FeatureList')
         for row in pos_twt:
             sentiment = 'positive'
             processed_twt = preprocess(row)
             feature_vector = self.get_feature_vector(processed_twt)
-            self.feature_list.extend(feature_vector)
+            pos_feature_set.extend(feature_vector)
             tweets.append((feature_vector, sentiment))
+            pbar.update(1)
         for row in neg_twt:
             sentiment = 'negative'
             processed_twt = preprocess(row)
             feature_vector = self.get_feature_vector(processed_twt)
-            self.feature_list.extend(feature_vector)
+            neg_feature_set.extend(feature_vector)
             tweets.append((feature_vector, sentiment))
-        # remove duplicates in feature list
-        self.feature_list = list(set(self.feature_list))
+            pbar.update(1)
+        pbar.close()
+        # compute salience of each gram
+        salience_set = set(pos_feature_set + neg_feature_set)
+        pbar = tqdm(total=len(salience_set), desc='Get Salience')
+        for gram in salience_set:
+            score = (1-(min([pos_feature_set.count(gram)/len(pos_feature_set),
+                            neg_feature_set.count(gram)/len(neg_feature_set)]) /
+                        max([pos_feature_set.count(gram)/len(pos_feature_set),
+                            neg_feature_set.count(gram)/len(neg_feature_set)])))
+            gram_salience[gram] = score
+            if score > self.feature_th:
+                self.feature_list.append(gram)
+            pbar.update(1)
+        pbar.close()
+
+        # get top feature_num grams
+        self.feature_salience = gram_salience
 
         # train classifier
         training_set = nltk.classify.util.apply_features(self.extract_features, tweets)

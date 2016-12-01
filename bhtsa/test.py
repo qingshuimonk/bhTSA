@@ -6,6 +6,8 @@ from BGClassifier import BGClassifier
 from nltk.corpus import twitter_samples, TwitterCorpusReader
 import os
 import pickle
+import matplotlib.pyplot as plt
+import numpy as np
 
 # # settings
 # oauth = credsfromfile()
@@ -53,4 +55,8 @@ print 'Done!'
 print BGC.test([neg_sample])
 print BGC.test([pos_sample])
 
-print BGC.informative_features()
+salience = []
+for key in BGC.feature_salience:
+    salience.append(BGC.feature_salience[key])
+n, bins, patches = plt.hist(np.asarray(salience), 50, normed=1, facecolor='green', alpha=0.75)
+plt.show()
