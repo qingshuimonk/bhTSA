@@ -23,6 +23,7 @@ class BGClassifier(object):
         self.feature_list = []
         self.feature_salience = []
         self.stop_words = get_stopwords()
+        self.slang_dict = get_slang_dict()
         self.is_trained = False
         self.BGClassifier = []
         self.ngram = n
@@ -64,21 +65,21 @@ class BGClassifier(object):
         pbar = tqdm(total=len(pos_twt)+len(neg_twt), desc='Get FeatureList')
         for row in pos_twt:
             sentiment = 'positive'
-            processed_twt = preprocess(row)
+            processed_twt = preprocess(row, slangdict=self.slang_dict)
             feature_vector = self.get_feature_vector(processed_twt)
             pos_feature_set.extend(feature_vector)
             tweets.append((feature_vector, sentiment))
             pbar.update(1)
         for row in neg_twt:
             sentiment = 'negative'
-            processed_twt = preprocess(row)
+            processed_twt = preprocess(row, slangdict=self.slang_dict)
             feature_vector = self.get_feature_vector(processed_twt)
             neg_feature_set.extend(feature_vector)
             tweets.append((feature_vector, sentiment))
             pbar.update(1)
         pbar.close()
         # compute salience of each gram
-        salience_set = set(pos_feature_set + neg_feature_set)
+        salience_set = set(neg_feature_set + pos_feature_set)
         pbar = tqdm(total=len(salience_set), desc='Get Salience')
         for gram in salience_set:
             score = (1-(min([pos_feature_set.count(gram)/len(pos_feature_set),

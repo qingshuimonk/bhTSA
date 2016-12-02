@@ -59,7 +59,7 @@ class SCClassifier(object):
         pbar = tqdm(total=len(twt))
         for cnt, row in enumerate(twt):
             no_slang_txt = self.change_slang(row)
-            processed_twt = preprocess(no_slang_txt)
+            processed_twt = preprocess(no_slang_txt, slangdict=self.slang_dict)
             text = tknzr.tokenize(processed_twt)
             pos = nltk.pos_tag(text)
             for ptag in pos:

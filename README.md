@@ -3,10 +3,10 @@ A Twitter Sentiment Analyzer
 
 
 # TODO
+  * [NLTK sentiment analyzer](http://www.nltk.org/api/nltk.sentiment.html), good for comparison
+  * New dataset: [Twitter Sentiment Corpus](http://thinknook.com/wp-content/uploads/2012/09/Sentiment-Analysis-Dataset.zip)
   * Use salient to reduce feature list
   * Topic modeling of tweets
-  * Need do something to handle 'rt', probably a new feature
-  * Fix having extra lines in process twt
 
 # DEMO
   * [Train Naive Bayes classifier](bhtsa/trainNBClassifier.ipynb)

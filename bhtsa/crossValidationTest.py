@@ -75,6 +75,10 @@ f = open(os.path.join(os.path.dirname(__file__), os.pardir, 'data', 'result', 'r
 pickle.dump((NB_auc, BH_auc, BG_auc, X_1, X_2, X_3, Y), f)
 f.close()
 
+# f = open(os.path.join(os.path.dirname(__file__), os.pardir, 'data', 'result', 'roc_NBvsSC_NB_no_slang.pickle'), 'r')
+# (NB_auc, BH_auc, BG_auc, X_1, X_2, X_3, Y) = pickle.load(f)
+# f.close()
+
 # get ROC
 fpr_1 = dict()
 tpr_1 = dict()
@@ -96,7 +100,7 @@ plt.figure()
 lw = 2
 plt.plot(fpr_1, tpr_1, color='blue', linewidth=lw, label='NaiveBayes (area = %0.2f)' % roc_auc_1)
 plt.plot(fpr_2, tpr_2, color='green', linewidth=lw, label='SCClassifier (area = %0.2f)' % roc_auc_2)
-plt.plot(fpr_3, tpr_3, color='green', linewidth=lw, label='BGClassifier (area = %0.2f)' % roc_auc_3)
+plt.plot(fpr_3, tpr_3, color='red', linewidth=lw, label='BGClassifier (area = %0.2f)' % roc_auc_3)
 # plt.plot(fpr[0], tpr[0])
 plt.plot([0, 1], [0, 1], color='navy', linewidth=lw, linestyle='--')
 plt.xlim([0.0, 1.0])
