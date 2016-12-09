@@ -68,6 +68,11 @@ class BGClassifier(object):
             processed_twt = preprocess(row, slangdict=self.slang_dict)
             feature_vector = self.get_feature_vector(processed_twt)
             pos_feature_set.extend(feature_vector)
+            for gram in feature_vector:
+                if gram not in gram_salience:
+                    gram_salience[gram] = np.asarray([1, 0])
+                else:
+                    gram_salience[gram] += np.asarray([1, 0])
             tweets.append((feature_vector, sentiment))
             pbar.update(1)
         for row in neg_twt:
@@ -75,19 +80,37 @@ class BGClassifier(object):
             processed_twt = preprocess(row, slangdict=self.slang_dict)
             feature_vector = self.get_feature_vector(processed_twt)
             neg_feature_set.extend(feature_vector)
+            for gram in feature_vector:
+                if gram not in gram_salience:
+                    gram_salience[gram] = np.asarray([0, 1])
+                else:
+                    gram_salience[gram] += np.asarray([0, 1])
             tweets.append((feature_vector, sentiment))
             pbar.update(1)
         pbar.close()
         # compute salience of each gram
-        salience_set = set(neg_feature_set + pos_feature_set)
-        pbar = tqdm(total=len(salience_set), desc='Get Salience')
-        for gram in salience_set:
-            score = (1-(min([pos_feature_set.count(gram)/len(pos_feature_set),
-                            neg_feature_set.count(gram)/len(neg_feature_set)]) /
-                        max([pos_feature_set.count(gram)/len(pos_feature_set),
-                            neg_feature_set.count(gram)/len(neg_feature_set)])))
-            gram_salience[gram] = score
-            if score > self.feature_th:
+        # salience_set = set(neg_feature_set + pos_feature_set)
+        # pbar = tqdm(total=len(salience_set), desc='Get Salience')
+        # pos_len = len(pos_feature_set)
+        # neg_len = len(neg_feature_set)
+        # for gram in salience_set:
+        #     pos_count = pos_feature_set.count(gram)
+        #     neg_count = neg_feature_set.count(gram)
+        #     score = (1-(min([pos_count/pos_len, neg_count/neg_len]) /
+        #                 max([pos_count/pos_len, neg_count/neg_len])))
+        #     gram_salience[gram] = score
+        #     if score > self.feature_th:
+        #         self.feature_list.append(gram)
+        #     pbar.update(1)
+        # pbar.close()
+        pos_len = len(pos_feature_set)
+        neg_len = len(neg_feature_set)
+        pbar = tqdm(total=len(gram_salience), desc='Get Salience')
+        for gram in gram_salience:
+            counts = gram_salience[gram]
+            gram_salience[gram] = 1 - min([counts[0]/pos_len, counts[1]/neg_len]) / \
+                                      max([counts[0]/pos_len, counts[1]/neg_len])
+            if gram_salience[gram] > self.feature_th:
                 self.feature_list.append(gram)
             pbar.update(1)
         pbar.close()

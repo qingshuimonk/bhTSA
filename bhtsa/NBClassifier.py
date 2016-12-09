@@ -18,6 +18,7 @@ class NBClassifier(object):
     def __init__(self, name='NBClassifier'):
         self.feature_list = []
         self.stop_words = get_stopwords()
+        self.slang_dict = get_slang_dict()
         self.is_trained = False
         self.NBClassifier = []
         self.name = name
@@ -49,13 +50,13 @@ class NBClassifier(object):
         tweets = []
         for row in pos_twt:
             sentiment = 'positive'
-            processed_twt = preprocess(row)
+            processed_twt = preprocess(row, slangdict=self.slang_dict)
             feature_vector = self.get_feature_vector(processed_twt)
             self.feature_list.extend(feature_vector)
             tweets.append((feature_vector, sentiment))
         for row in neg_twt:
             sentiment = 'negative'
-            processed_twt = preprocess(row)
+            processed_twt = preprocess(row, slangdict=self.slang_dict)
             feature_vector = self.get_feature_vector(processed_twt)
             self.feature_list.extend(feature_vector)
             tweets.append((feature_vector, sentiment))

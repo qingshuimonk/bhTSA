@@ -55,6 +55,7 @@ print 'Done!'
 print BGC.test([neg_sample])
 print BGC.test([pos_sample])
 
+plt.figure()
 salience = []
 for key in BGC.feature_salience:
     salience.append(BGC.feature_salience[key])
