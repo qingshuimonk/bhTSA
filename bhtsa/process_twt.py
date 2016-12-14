@@ -53,22 +53,6 @@ def reduce_redundancy(twt):
     pattern = re.compile(r"(.)\1{1,}", re.DOTALL)
     return pattern.sub(r"\1\1", twt)
 
-#--------------------------------Decode Emoticons ----------------------#
-def emoji_to_text (twt):
-    sad_emoticons = {":-(", ":(", ":-|", ";-(", ";-<", "|-{", '😒','😓','😔','😖',\
-                    '😞','😟','😠','😡','😢','😣','😤','😥','😦','😧','😨','😩','😪',\
-                    '😫','😬','😭','😾','😿','😰','😱','🙀'}
-                    
-    happy_emoticons = {":-)", ":)", ":o)", ":-}", ";-}", ":->", ";-)" ,'😀','😁','😂','😃','😄',\
-                      '😅','😆','😇','😈','😉','😊','😋','😌','😍','😎','😏','😗','😘','😙','😚',\
-                     '😛','😜','😝','😸','😹','😺','😻','😼','😽'}
-
-    for word in twt.split(' '): 
-        if word.strip() in sad_emoticons: 
-            twt = twt.replace(word, 'sad')
-        if word.strip() in happy_emoticons:
-            twt = twt.replace(word,'happy')
-    return twt
 
 def preprocess(twt, tolower=True, slangdict={}):
     # replace slangs with original words

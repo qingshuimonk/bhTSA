@@ -1,7 +1,8 @@
-from nltk.twitter import TweetViewer
+from nltk.twitter import TweetViewer, TweetWriter
 import pickle
 import numpy as np
 import datetime
+import time
 import os
 
 
@@ -37,7 +38,10 @@ def senti_score_daily(keyword, client, classifier, twt_num, start_time, days, ve
 
         score = classifier.test(tweets)
 
-        score_all[0:len(score[:, 0]), i] = score[:, 0]
+        if len(score[:, 0]) <= twt_num:
+            score_all[0:len(score[:, 0]), i] = score[:, 0]
+        else:
+            score_all[0:twt_num, i] = score[:twt_num, 0]
         if verb == 1:
             print keyword+' : '+str(start_t)+' to '+str(end_t)+' score='+str(np.mean(score_all[:, i], axis=0))
 
@@ -71,5 +75,30 @@ def senti_score_time(keyword, client, classifier, twt_num, start_time, step, ste
         score_all[0:len(score[:, 0]), i] = score[:, 0]
         if verb == 1:
             print keyword+' : '+str(start_t)+' to '+str(end_t)+' score='+str(np.mean(score_all[:, i], axis=0))
+
+    return score_all
+
+
+def senti_score_realtime(keyword, client, classifier, twt_num, step, step_num, verb=0):
+    score_all = np.zeros((twt_num, step_num))
+
+    for i in range(step_num):
+        origin = datetime.datetime.today()
+        end_t = origin + datetime.timedelta(minutes=step)
+
+        # don't store files in this case
+        client.register(TweetWriter(limit=twt_num))
+        tweets_gen = client.filter(track=keyword)
+        tweets = []
+        for t in tweets_gen:
+            tweets.append(t['text'])
+
+        score = classifier.test(tweets)
+
+        score_all[0:len(score[:, 0]), i] = score[:, 0]
+        if verb == 1:
+            print keyword+' : '+str(origin)+' to '+str(end_t)+' score='+str(np.mean(score_all[:, i], axis=0))
+
+        time.sleep((end_t - origin).seconds)
 
     return score_all
