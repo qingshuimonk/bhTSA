@@ -2,24 +2,30 @@ import re
 import os
 from collections import Counter
 
-#spell correction
+# spell correction
+# get probability of a word
 
-#get probability of a word
+
 def tokenize(text): return re.findall(r'\w+', text.lower())
+WORDS = Counter(tokenize(open(os.path.join(os.path.dirname(__file__), os.pardir, 'data', 'big.txt')).read()))
 
-WORDS  = Counter(tokenize(open(os.path.join(os.path.dirname(__file__), os.pardir, 'data', 'big.txt')).read()))
 
-def Prob(word, N= sum(WORDS.values())):
-    return WORDS[word]/N
-#-------------------
+def prob(word, n=sum(WORDS.values())):
+    return WORDS[word]/n
+
+
+# -------------------
 def correction(word):
-    return max(candidates(word), key=Prob)
+    return max(candidates(word), key=prob)
+
 
 def candidates(word):
-    return (known([word]) or known(edit1(word)) or known(edit2(word)) or [word])
+    return known([word]) or known(edit1(word)) or known(edit2(word)) or [word]
+
 
 def known(words):
     return set(w for w in words if w in WORDS)
+
 
 # word distances to known words
 def edit1(word):
@@ -31,6 +37,7 @@ def edit1(word):
     inserts    = [L + c + R               for L, R in splits for c in letters]
     return set(deletes + transposes + replaces + inserts)
 
+
 def edit2(word): 
     return (e2 for e1 in edit1(word) for e2 in edit1(e1))
 
@@ -39,8 +46,9 @@ def spell_correct(twt):
     for word in twt.split(' '):
         twt = twt.replace(word.strip(), correction(word)) 
     return twt
-#-- test autocorrect 
 
+
+# -- test autocorrect
 def reduce_redundancy(twt):
     pattern = re.compile(r"(.)\1{1,}", re.DOTALL)
     return pattern.sub(r"\1\1", twt)

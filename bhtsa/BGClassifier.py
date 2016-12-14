@@ -88,21 +88,6 @@ class BGClassifier(object):
             tweets.append((feature_vector, sentiment))
             pbar.update(1)
         pbar.close()
-        # compute salience of each gram
-        # salience_set = set(neg_feature_set + pos_feature_set)
-        # pbar = tqdm(total=len(salience_set), desc='Get Salience')
-        # pos_len = len(pos_feature_set)
-        # neg_len = len(neg_feature_set)
-        # for gram in salience_set:
-        #     pos_count = pos_feature_set.count(gram)
-        #     neg_count = neg_feature_set.count(gram)
-        #     score = (1-(min([pos_count/pos_len, neg_count/neg_len]) /
-        #                 max([pos_count/pos_len, neg_count/neg_len])))
-        #     gram_salience[gram] = score
-        #     if score > self.feature_th:
-        #         self.feature_list.append(gram)
-        #     pbar.update(1)
-        # pbar.close()
         pos_len = len(pos_feature_set)
         neg_len = len(neg_feature_set)
         pbar = tqdm(total=len(gram_salience), desc='Get Salience')

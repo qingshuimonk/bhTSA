@@ -9,21 +9,21 @@ import pickle
 import matplotlib.pyplot as plt
 import numpy as np
 
-# # settings
-# oauth = credsfromfile()
-# client = Query(**oauth)
-# twtNum = 10
-# client.register(TweetViewer(limit=twtNum))
-# tweets_gen = client.search_tweets(keywords='spurs', lang='en')
-# tweets = []
-# slangdict = process_twt.get_slangdictionary()
-# twt_list = []
-# for t in tweets_gen:
-#     twt_list.append(process_twt.preprocess(t['text'], slangdict=slangdict))
-# twt_list = list(set(twt_list))
-#
-# for t in twt_list[:twtNum]:
-#     print t
+# settings
+oauth = credsfromfile()
+client = Query(**oauth)
+twtNum = 10
+client.register(TweetViewer(limit=twtNum))
+tweets_gen = client.search_tweets(keywords='hearthstone', lang='en')
+tweets = []
+slangdict = process_twt.get_slang_dict()
+twt_list = []
+for t in tweets_gen:
+    twt_list.append(process_twt.preprocess(t['text'], slangdict=slangdict))
+twt_list = list(set(twt_list))
+
+for t in twt_list[:twtNum]:
+    print t
 
 fileIds = twitter_samples.fileids()
 root = twitter_samples.root
